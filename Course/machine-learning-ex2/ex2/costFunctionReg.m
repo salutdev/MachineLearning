@@ -27,7 +27,7 @@ grad0 = sum((h - y).*X(:, 1))/ m;
 %grad = ((h - y)' * X)' / m;
 grad1n = ((h - y)' * X(:, 2:n))' / m + lambda/m*theta(2:n);
 
-grad = [grad0; grad1n]
+grad = [grad0; grad1n];
 
 % =============================================================
 
