@@ -74,10 +74,6 @@ Z3t = Theta2 * A2t;
 A3t = sigmoid(Z3t);
 A3 = A3t';
 
-%[h, p] = max(A3, [], 2);
-
-
-%num_labels = 1;
 for i = 1:m
 
     yb = zeros(num_labels, 1);
@@ -86,11 +82,9 @@ for i = 1:m
     h = A3(i, :)';
 
     J = J + sum(-yb.*(log(h)) - (1 - yb).*(log(1-h)))/m; % + lambda/(2*m) * sum(theta(2:n).^2);
-
-
 end
 
-
+J = J + lambda/(2*m) * ((sum(sum(Theta1(:, 2:end).^2)) + sum(sum(Theta2(:, 2:end).^2))));
 
 
 
