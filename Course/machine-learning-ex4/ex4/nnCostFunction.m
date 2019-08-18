@@ -64,10 +64,31 @@ Theta2_grad = zeros(size(Theta2));
 
 
 
+X = [ones(m, 1) X];
+
+Z2t = Theta1 * X';
+A2t = sigmoid(Z2t);
+A2t = [ones(1, m); A2t];      % This is transposed A matrix on level 2 (t suffix means transposed)
+Z3t = Theta2 * A2t;
+
+A3t = sigmoid(Z3t);
+A3 = A3t';
+
+%[h, p] = max(A3, [], 2);
 
 
+%num_labels = 1;
+for i = 1:m
+
+    yb = zeros(num_labels, 1);
+    yb(y(i)) = 1;
+    
+    h = A3(i, :)';
+
+    J = J + sum(-yb.*(log(h)) - (1 - yb).*(log(1-h)))/m; % + lambda/(2*m) * sum(theta(2:n).^2);
 
 
+end
 
 
 
