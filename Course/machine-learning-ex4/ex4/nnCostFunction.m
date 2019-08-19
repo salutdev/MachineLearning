@@ -62,11 +62,10 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-
-
 X = [ones(m, 1) X];
 
 Z2t = Theta1 * X';
+Z2 = Z2t';
 A2t = sigmoid(Z2t);
 A2t = [ones(1, m); A2t];      % This is transposed A matrix on level 2 (t suffix means transposed)
 A2 = A2t';
@@ -89,6 +88,28 @@ end
 J += lambda/(2*m) * ((sum(sum(Theta1(:, 2:end).^2)) + sum(sum(Theta2(:, 2:end).^2))));
 
 
+deltaSum1 = zeros(size(Theta1, 1), size(Theta1, 2) - 1);
+deltaSum2 = zeros(size(Theta2, 1), size(Theta2, 2) - 1);
+
+for i = 1:m
+
+    yb = zeros(num_labels, 1);
+    yb(y(i)) = 1;
+    
+    a3 = A3(i, :)';
+
+    delta3 = a3 - yb;
+
+    temp2 = Theta2' * delta3;
+    delta2 = temp2(2:end) .* sigmoidGradient(Z2(i, :)');
+
+    Theta1_grad += delta2 * X(i, :);
+    Theta2_grad += delta3 * A2(i, :);
+
+end    
+
+Theta1_grad /= m;
+Theta2_grad /= m;
 
 % -------------------------------------------------------------
 
