@@ -111,6 +111,15 @@ end
 Theta1_grad /= m;
 Theta2_grad /= m;
 
+ThetaReg1 = Theta1;
+ThetaReg1(:, 1) = 0;
+ThetaReg2 = Theta2;
+ThetaReg2(:, 1) = 0;
+
+Theta1_grad += lambda / m * ThetaReg1;
+Theta2_grad += lambda / m * ThetaReg2;
+
+
 % -------------------------------------------------------------
 
 % =========================================================================
