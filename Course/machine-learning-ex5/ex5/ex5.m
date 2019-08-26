@@ -202,7 +202,7 @@ pause;
 %
 
 [lambda_vec, error_train, error_val] = ...
-    validationCurve(X_poly, y, X_poly_val, yval);
+    validationCurve(X_poly, y, X_poly_val, yval, X_poly_test, ytest);
 
 close all;
 plot(lambda_vec, error_train, lambda_vec, error_val);
