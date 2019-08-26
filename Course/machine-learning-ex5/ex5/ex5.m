@@ -217,6 +217,7 @@ for i = 1:length(lambda_vec)
 end
 
 myCalcTestError(X_poly, y, X_poly_test, ytest);
+myLerningCurvesWithRandExamples(X_poly, y, X_poly_val, yval);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
