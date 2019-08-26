@@ -56,14 +56,6 @@ for i = 1:length(lambda_vec)
 
 end
 
-theta = trainLinearReg(X, y, 3);
-
-
-% Optional exercise 1
-mt = size(Xtest, 1);
-error_test = 1/(2*mt) * sum((Xtest * theta - ytest) .^ 2);
-error_test
-
 % =========================================================================
 
 end

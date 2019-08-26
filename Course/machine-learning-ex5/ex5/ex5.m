@@ -202,7 +202,7 @@ pause;
 %
 
 [lambda_vec, error_train, error_val] = ...
-    validationCurve(X_poly, y, X_poly_val, yval, X_poly_test, ytest);
+    validationCurve(X_poly, y, X_poly_val, yval);
 
 close all;
 plot(lambda_vec, error_train, lambda_vec, error_val);
@@ -215,6 +215,8 @@ for i = 1:length(lambda_vec)
 	fprintf(' %f\t%f\t%f\n', ...
             lambda_vec(i), error_train(i), error_val(i));
 end
+
+myCalcTestError(X_poly, y, X_poly_test, ytest);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
