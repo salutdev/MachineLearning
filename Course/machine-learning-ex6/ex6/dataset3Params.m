@@ -23,11 +23,24 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+arC = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+arSigma = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
 
-
-
-
-
+m = size(arC, 2);
+n = size(arSigma, 2);
+minError = intmax;
+for i = 1:m
+    for j = 1:n
+        model= svmTrain(X, y, arC(i), @(x1, x2) gaussianKernel(x1, x2, arSigma(j)));
+        predictions = svmPredict(model, Xval);
+        error = mean(double(predictions ~= yval));
+        if (error < minError)
+            minError = error;
+            C = arC(i);
+            sigma = arSigma(j);
+        endif
+    end
+end
 
 % =========================================================================
 
