@@ -22,13 +22,21 @@ sigma2 = zeros(n, 1);
 %
 
 
+%mut = sum(X)/m;
+%mu = mut';
 
+%sigma2t = sigma2';
 
+%for j = 1:m
+%   sigma2t += (X(j, :) - mut) .^ 2;
+%end
 
+%sigma2t /= m;
+%sigma2 = sigma2t';
 
-
-
-
+% Shorter version
+mu = mean(X);
+sigma2 = var(X, 1);
 
 % =============================================================
 
