@@ -59,25 +59,45 @@ Jterm3 *= lambda / 2;
 
 J = sum(sum(((X * Theta' - Y) .* R) .^ 2)) / 2 + Jterm2 + Jterm3;
 
+
+for i = 1:num_movies
+    idx = find(R(i, :)==1);
+    ThetaTemp = Theta(idx, :);
+    YTemp = Y(i, idx);
+     
+    X_grad(i, :) = (X(i, :) * ThetaTemp' - YTemp ) * ThetaTemp;
+
+end
+
 for i = 1:num_movies
     for k = 1:num_features
-       for j = 1:num_users
-            if (R(i, j) == 1)
-                X_grad(i, k) += (Theta(j, :) * X(i, :)' - Y(i, j)) * Theta(j, k);
-            endif
-        end
+        %for j = 1:num_users
+        %     if (R(i, j) == 1)
+        %         X_grad(i, k) += (Theta(j, :) * X(i, :)' - Y(i, j)) * Theta(j, k);
+        %     endif
+        % end
         X_grad(i, k) += lambda * X(i, k);
     end
 end
 
 
 for j = 1:num_users
+
+    idx = find(R(:, j)==1);
+    XTemp = X(idx, :);
+    YTemp = Y(idx, j);
+    
+    Theta_grad(j, :) = XTemp' * (XTemp * Theta(j, :)' - YTemp );
+    
+end
+
+for j = 1:num_users
     for k = 1:num_features
-        for i = 1:num_movies
-            if (R(i, j) == 1)
-                Theta_grad(j, k) += (Theta(j, :) * X(i, :)' - Y(i, j)) * X(i, k);
-            endif
-        end
+        %for i = 1:num_movies
+        %    if (R(i, j) == 1)
+        %        Theta_grad(j, k) += (Theta(j, :) * X(i, :)' - Y(i, j)) * X(i, k);
+        %    endif
+        %end
         Theta_grad(j, k) += lambda * Theta(j, k);
     end
 end
