@@ -1,0 +1,1792 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font than Computer Modern for most use cases
+    \usepackage{palatino}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Trigger\_word\_detection\_v1a}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \subsection{Trigger Word Detection}\label{trigger-word-detection}
+
+Welcome to the final programming assignment of this specialization!
+
+In this week's videos, you learned about applying deep learning to
+speech recognition. In this assignment, you will construct a speech
+dataset and implement an algorithm for trigger word detection (sometimes
+also called keyword detection, or wake word detection).
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Trigger word detection is the technology that allows devices like
+  Amazon Alexa, Google Home, Apple Siri, and Baidu DuerOS to wake up
+  upon hearing a certain word.\\
+\item
+  For this exercise, our trigger word will be ``Activate.'' Every time
+  it hears you say ``activate,'' it will make a ``chiming'' sound.
+\item
+  By the end of this assignment, you will be able to record a clip of
+  yourself talking, and have the algorithm trigger a chime when it
+  detects you saying ``activate.''
+\item
+  After completing this assignment, perhaps you can also extend it to
+  run on your laptop so that every time you say ``activate'' it starts
+  up your favorite app, or turns on a network connected lamp in your
+  house, or triggers some other event?
+\end{itemize}
+
+In this assignment you will learn to: - Structure a speech recognition
+project - Synthesize and process audio recordings to create train/dev
+datasets - Train a trigger word detection model and make predictions
+
+    \subsection{Updates}\label{updates}
+
+\paragraph{If you were working on the notebook before this
+update\ldots{}}\label{if-you-were-working-on-the-notebook-before-this-update}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  The current notebook is version ``1a''.
+\item
+  You can find your original work saved in the notebook with the
+  previous version name (``v1'')
+\item
+  To view the file directory, go to the menu
+  ``File-\textgreater{}Open'', and this will open a new tab that shows
+  the file directory.
+\end{itemize}
+
+\paragraph{List of updates}\label{list-of-updates}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  2.1: build the model
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Added sample code to show how to use the Keras layers.
+  \item
+    Lets student to implement the \texttt{TimeDistributed} code.
+  \end{itemize}
+\item
+  Spelling, grammar and wording corrections.
+\end{itemize}
+
+    Let's get started! Run the following cell to load the package you are
+going to use.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{from} \PY{n+nn}{pydub} \PY{k}{import} \PY{n}{AudioSegment}
+        \PY{k+kn}{import} \PY{n+nn}{random}
+        \PY{k+kn}{import} \PY{n+nn}{sys}
+        \PY{k+kn}{import} \PY{n+nn}{io}
+        \PY{k+kn}{import} \PY{n+nn}{os}
+        \PY{k+kn}{import} \PY{n+nn}{glob}
+        \PY{k+kn}{import} \PY{n+nn}{IPython}
+        \PY{k+kn}{from} \PY{n+nn}{td\PYZus{}utils} \PY{k}{import} \PY{o}{*}
+        \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\end{Verbatim}
+
+    \section{1 - Data synthesis: Creating a speech
+dataset}\label{data-synthesis-creating-a-speech-dataset}
+
+Let's start by building a dataset for your trigger word detection
+algorithm. * A speech dataset should ideally be as close as possible to
+the application you will want to run it on. * In this case, you'd like
+to detect the word ``activate'' in working environments (library, home,
+offices, open-spaces \ldots{}). * Therefore, you need to create
+recordings with a mix of positive words (``activate'') and negative
+words (random words other than activate) on different background sounds.
+Let's see how you can create such a dataset.
+
+\subsection{1.1 - Listening to the data}\label{listening-to-the-data}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  One of your friends is helping you out on this project, and they've
+  gone to libraries, cafes, restaurants, homes and offices all around
+  the region to record background noises, as well as snippets of audio
+  of people saying positive/negative words. This dataset includes people
+  speaking in a variety of accents.
+\item
+  In the raw\_data directory, you can find a subset of the raw audio
+  files of the positive words, negative words, and background noise. You
+  will use these audio files to synthesize a dataset to train the model.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    The ``activate'' directory contains positive examples of people
+    saying the word ``activate''.
+  \item
+    The ``negatives'' directory contains negative examples of people
+    saying random words other than ``activate''.
+  \item
+    There is one word per audio recording.
+  \item
+    The ``backgrounds'' directory contains 10 second clips of background
+    noise in different environments.
+  \end{itemize}
+\end{itemize}
+
+Run the cells below to listen to some examples.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./raw\PYZus{}data/activates/1.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./raw\PYZus{}data/negatives/4.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./raw\PYZus{}data/backgrounds/1.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    You will use these three types of recordings
+(positives/negatives/backgrounds) to create a labeled dataset.
+
+    \subsection{1.2 - From audio recordings to
+spectrograms}\label{from-audio-recordings-to-spectrograms}
+
+What really is an audio recording? * A microphone records little
+variations in air pressure over time, and it is these little variations
+in air pressure that your ear also perceives as sound. * You can think
+of an audio recording is a long list of numbers measuring the little air
+pressure changes detected by the microphone. * We will use audio sampled
+at 44100 Hz (or 44100 Hertz). * This means the microphone gives us
+44,100 numbers per second. * Thus, a 10 second audio clip is represented
+by 441,000 numbers (= $10 \times 44,100$).
+
+\paragraph{Spectrogram}\label{spectrogram}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  It is quite difficult to figure out from this ``raw'' representation
+  of audio whether the word ``activate'' was said.
+\item
+  In order to help your sequence model more easily learn to detect
+  trigger words, we will compute a \emph{spectrogram} of the audio.
+\item
+  The spectrogram tells us how much different frequencies are present in
+  an audio clip at any moment in time.
+\item
+  If you've ever taken an advanced class on signal processing or on
+  Fourier transforms:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    A spectrogram is computed by sliding a window over the raw audio
+    signal, and calculating the most active frequencies in each window
+    using a Fourier transform.
+  \item
+    If you don't understand the previous sentence, don't worry about it.
+  \end{itemize}
+\end{itemize}
+
+Let's look at an example.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{audio\PYZus{}examples/example\PYZus{}train.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{x} \PY{o}{=} \PY{n}{graph\PYZus{}spectrogram}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{audio\PYZus{}examples/example\PYZus{}train.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    The graph above represents how active each frequency is (y axis) over a
+number of time-steps (x axis).
+
+\textbf{Figure 1}: Spectrogram of an audio recording
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  The color in the spectrogram shows the degree to which different
+  frequencies are present (loud) in the audio at different points in
+  time.
+\item
+  Green means a certain frequency is more active or more present in the
+  audio clip (louder).
+\item
+  Blue squares denote less active frequencies.
+\item
+  The dimension of the output spectrogram depends upon the
+  hyperparameters of the spectrogram software and the length of the
+  input.
+\item
+  In this notebook, we will be working with 10 second audio clips as the
+  ``standard length'' for our training examples.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    The number of timesteps of the spectrogram will be 5511.
+  \item
+    You'll see later that the spectrogram will be the input $x$ into the
+    network, and so $T_x = 5511$.
+  \end{itemize}
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{data} \PY{o}{=} \PY{n}{wavfile}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{audio\PYZus{}examples/example\PYZus{}train.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Time steps in audio recording before spectrogram}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{data}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Time steps in input after spectrogram}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\end{Verbatim}
+
+    Now, you can define:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{Tx} \PY{o}{=} \PY{l+m+mi}{5511} \PY{c+c1}{\PYZsh{} The number of time steps input to the model from the spectrogram}
+        \PY{n}{n\PYZus{}freq} \PY{o}{=} \PY{l+m+mi}{101} \PY{c+c1}{\PYZsh{} Number of frequencies input to the model at each time step of the spectrogram}
+\end{Verbatim}
+
+    \paragraph{Dividing into
+time-intervals}\label{dividing-into-time-intervals}
+
+Note that we may divide a 10 second interval of time with different
+units (steps). * Raw audio divides 10 seconds into 441,000 units. * A
+spectrogram divides 10 seconds into 5,511 units. * $T_x = 5511$ * You
+will use a Python module \texttt{pydub} to synthesize audio, and it
+divides 10 seconds into 10,000 units. * The output of our model will
+divide 10 seconds into 1,375 units. * $T_y = 1375$ * For each of the
+1375 time steps, the model predicts whether someone recently finished
+saying the trigger word ``activate.'' * All of these are hyperparameters
+and can be changed (except the 441000, which is a function of the
+microphone). * We have chosen values that are within the standard range
+used for speech systems.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{Ty} \PY{o}{=} \PY{l+m+mi}{1375} \PY{c+c1}{\PYZsh{} The number of time steps in the output of our model}
+\end{Verbatim}
+
+    \subsection{1.3 - Generating a single training
+example}\label{generating-a-single-training-example}
+
+\paragraph{Benefits of synthesizing
+data}\label{benefits-of-synthesizing-data}
+
+Because speech data is hard to acquire and label, you will synthesize
+your training data using the audio clips of activates, negatives, and
+backgrounds. * It is quite slow to record lots of 10 second audio clips
+with random ``activates'' in it. * Instead, it is easier to record lots
+of positives and negative words, and record background noise separately
+(or download background noise from free online sources).
+
+\paragraph{Process for Synthesizing an audio
+clip}\label{process-for-synthesizing-an-audio-clip}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  To synthesize a single training example, you will:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Pick a random 10 second background audio clip
+  \item
+    Randomly insert 0-4 audio clips of ``activate'' into this 10sec clip
+  \item
+    Randomly insert 0-2 audio clips of negative words into this 10sec
+    clip
+  \end{itemize}
+\item
+  Because you had synthesized the word ``activate'' into the background
+  clip, you know exactly when in the 10 second clip the ``activate''
+  makes its appearance.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    You'll see later that this makes it easier to generate the labels
+    $y^{\langle t \rangle}$ as well.
+  \end{itemize}
+\end{itemize}
+
+\paragraph{Pydub}\label{pydub}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  You will use the pydub package to manipulate audio.
+\item
+  Pydub converts raw audio files into lists of Pydub data structures.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Don't worry about the details of the data structures.
+  \end{itemize}
+\item
+  Pydub uses 1ms as the discretization interval (1ms is 1 millisecond =
+  1/1000 seconds).
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    This is why a 10 second clip is always represented using 10,000
+    steps.
+  \end{itemize}
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Load audio segments using pydub }
+        \PY{n}{activates}\PY{p}{,} \PY{n}{negatives}\PY{p}{,} \PY{n}{backgrounds} \PY{o}{=} \PY{n}{load\PYZus{}raw\PYZus{}audio}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{background len should be 10,000, since it is a 10 sec clip}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{backgrounds}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{activate[0] len may be around 1000, since an `activate` audio clip is usually around 1 second (but varies a lot) }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{activates}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{activate[1] len: different `activate` clips can have different lengths}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{activates}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \subsubsection{Overlaying positive/negative `word' audio clips on top of
+the background
+audio}\label{overlaying-positivenegative-word-audio-clips-on-top-of-the-background-audio}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Given a 10 second background clip and a short audio clip containing a
+  positive or negative word, you need to be able to ``add'' the word
+  audio clip on top of the background audio.
+\item
+  You will be inserting multiple clips of positive/negative words into
+  the background, and you don't want to insert an ``activate'' or a
+  random word somewhere that overlaps with another clip you had
+  previously added.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    To ensure that the `word' audio segments do not overlap when
+    inserted, you will keep track of the times of previously inserted
+    audio clips.
+  \end{itemize}
+\item
+  To be clear, when you insert a 1 second ``activate'' onto a 10 second
+  clip of cafe noise, \textbf{you do not end up with an 11 sec clip.}
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    The resulting audio clip is still 10 seconds long.
+  \item
+    You'll see later how pydub allows you to do this.
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Label the positive/negative
+words}\label{label-the-positivenegative-words}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Recall that the labels $y^{\langle t \rangle}$ represent whether or
+  not someone has just finished saying ``activate.''
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    $y^{\langle t \rangle} = 1$ when that that clip has finished saying
+    ``activate''.
+  \item
+    Given a background clip, we can initialize $y^{\langle t \rangle}=0$
+    for all $t$, since the clip doesn't contain any ``activates.''
+  \end{itemize}
+\item
+  When you insert or overlay an ``activate'' clip, you will also update
+  labels for $y^{\langle t \rangle}$.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Rather than updating the label of a single time step, we will update
+    50 steps of the output to have target label 1.
+  \item
+    Recall from the lecture on trigger word detection that updating
+    several consecutive time steps can make the training data more
+    balanced.
+  \end{itemize}
+\item
+  You will train a GRU (Gated Recurrent Unit) to detect when someone has
+  \textbf{finished} saying ``activate''.
+\end{itemize}
+
+\subparagraph{Example}\label{example}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Suppose the synthesized ``activate'' clip ends at the 5 second mark in
+  the 10 second audio - exactly halfway into the clip.
+\item
+  Recall that $T_y = 1375$, so timestep $687 = $ \texttt{int(1375*0.5)}
+  corresponds to the moment 5 seconds into the audio clip.
+\item
+  Set $y^{\langle 688 \rangle} = 1$.
+\item
+  We will allow the GRU to detect ``activate'' anywhere within a short
+  time-internal \textbf{after} this moment, so we actually \textbf{set
+  50 consecutive values} of the label $y^{\langle t \rangle}$ to 1.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Specifically, we have
+    $y^{\langle 688 \rangle} = y^{\langle 689 \rangle} = \cdots = y^{\langle 737 \rangle} = 1$.
+  \end{itemize}
+\end{itemize}
+
+\subparagraph{Synthesized data is easier to
+label}\label{synthesized-data-is-easier-to-label}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  This is another reason for synthesizing the training data: It's
+  relatively straightforward to generate these labels
+  $y^{\langle t \rangle}$ as described above.
+\item
+  In contrast, if you have 10sec of audio recorded on a microphone, it's
+  quite time consuming for a person to listen to it and mark manually
+  exactly when ``activate'' finished.
+\end{itemize}
+
+    \paragraph{Visualizing the labels}\label{visualizing-the-labels}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Here's a figure illustrating the labels $y^{\langle t \rangle}$ in a
+  clip.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    We have inserted ``activate'', ``innocent'', activate``,''baby."
+  \item
+    Note that the positive labels ``1'' are associated only with the
+    positive words.
+  \end{itemize}
+\end{itemize}
+
+\textbf{Figure 2}
+
+    \paragraph{Helper functions}\label{helper-functions}
+
+To implement the training set synthesis process, you will use the
+following helper functions. * All of these functions will use a 1ms
+discretization interval * The 10 seconds of audio is always discretized
+into 10,000 steps.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \texttt{get\_random\_time\_segment(segment\_ms)}
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Retrieves a random time segment from the background audio.
+  \end{itemize}
+\item
+  \texttt{is\_overlapping(segment\_time, existing\_segments)}
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Checks if a time segment overlaps with existing segments
+  \end{itemize}
+\item
+  \texttt{insert\_audio\_clip(background, audio\_clip, existing\_times)}
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Inserts an audio segment at a random time in the background audio
+  \item
+    Uses the functions \texttt{get\_random\_time\_segment} and
+    \texttt{is\_overlapping}
+  \end{itemize}
+\item
+  \texttt{insert\_ones(y, segment\_end\_ms)}
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Inserts additional 1's into the label vector y after the word
+    ``activate''
+  \end{itemize}
+\end{enumerate}
+
+    \paragraph{Get a random time segment}\label{get-a-random-time-segment}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  The function \texttt{get\_random\_time\_segment(segment\_ms)} returns
+  a random time segment onto which we can insert an audio clip of
+  duration \texttt{segment\_ms}.
+\item
+  Please read through the code to make sure you understand what it is
+  doing.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k}{def} \PY{n+nf}{get\PYZus{}random\PYZus{}time\PYZus{}segment}\PY{p}{(}\PY{n}{segment\PYZus{}ms}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+sd}{    Gets a random time segment of duration segment\PYZus{}ms in a 10,000 ms audio clip.}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Arguments:}
+        \PY{l+s+sd}{    segment\PYZus{}ms \PYZhy{}\PYZhy{} the duration of the audio clip in ms (\PYZdq{}ms\PYZdq{} stands for \PYZdq{}milliseconds\PYZdq{})}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Returns:}
+        \PY{l+s+sd}{    segment\PYZus{}time \PYZhy{}\PYZhy{} a tuple of (segment\PYZus{}start, segment\PYZus{}end) in ms}
+        \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+            
+            \PY{n}{segment\PYZus{}start} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{n}{low}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{high}\PY{o}{=}\PY{l+m+mi}{10000}\PY{o}{\PYZhy{}}\PY{n}{segment\PYZus{}ms}\PY{p}{)}   \PY{c+c1}{\PYZsh{} Make sure segment doesn\PYZsq{}t run past the 10sec background }
+            \PY{n}{segment\PYZus{}end} \PY{o}{=} \PY{n}{segment\PYZus{}start} \PY{o}{+} \PY{n}{segment\PYZus{}ms} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}
+            
+            \PY{k}{return} \PY{p}{(}\PY{n}{segment\PYZus{}start}\PY{p}{,} \PY{n}{segment\PYZus{}end}\PY{p}{)}
+\end{Verbatim}
+
+    \paragraph{Check if audio clips are
+overlapping}\label{check-if-audio-clips-are-overlapping}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Suppose you have inserted audio clips at segments (1000,1800) and
+  (3400,4500).
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    The first segment starts at step 1000 and ends at step 1800.
+  \item
+    The second segment starts at 3400 and ends at 4500.
+  \end{itemize}
+\item
+  If we are considering whether to insert a new audio clip at
+  (3000,3600) does this overlap with one of the previously inserted
+  segments?
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    In this case, (3000,3600) and (3400,4500) overlap, so we should
+    decide against inserting a clip here.
+  \end{itemize}
+\item
+  For the purpose of this function, define (100,200) and (200,250) to be
+  overlapping, since they overlap at timestep 200.
+\item
+  (100,199) and (200,250) are non-overlapping.
+\end{itemize}
+
+\textbf{Exercise}: * Implement
+\texttt{is\_overlapping(segment\_time, existing\_segments)} to check if
+a new time segment overlaps with any of the previous segments. * You
+will need to carry out 2 steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Create a ``False'' flag, that you will later set to ``True'' if you
+  find that there is an overlap.
+\item
+  Loop over the previous\_segments' start and end times. Compare these
+  times to the segment's start and end times. If there is an overlap,
+  set the flag defined in (1) as True.
+\end{enumerate}
+
+You can use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for} \NormalTok{....:}
+        \KeywordTok{if} \NormalTok{... <= ... and ... >= ...:}
+            \NormalTok{...}
+\end{Highlighting}
+\end{Shaded}
+
+Hint: There is overlap if: * The new segment starts before the previous
+segment ends \textbf{and} * The new segment ends after the previous
+segment starts.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} GRADED FUNCTION: is\PYZus{}overlapping}
+        
+        \PY{k}{def} \PY{n+nf}{is\PYZus{}overlapping}\PY{p}{(}\PY{n}{segment\PYZus{}time}\PY{p}{,} \PY{n}{previous\PYZus{}segments}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+sd}{    Checks if the time of a segment overlaps with the times of existing segments.}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Arguments:}
+        \PY{l+s+sd}{    segment\PYZus{}time \PYZhy{}\PYZhy{} a tuple of (segment\PYZus{}start, segment\PYZus{}end) for the new segment}
+        \PY{l+s+sd}{    previous\PYZus{}segments \PYZhy{}\PYZhy{} a list of tuples of (segment\PYZus{}start, segment\PYZus{}end) for the existing segments}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Returns:}
+        \PY{l+s+sd}{    True if the time segment overlaps with any of the existing segments, False otherwise}
+        \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+            
+            \PY{n}{segment\PYZus{}start}\PY{p}{,} \PY{n}{segment\PYZus{}end} \PY{o}{=} \PY{n}{segment\PYZus{}time}
+            
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} START CODE HERE \PYZsh{}\PYZsh{}\PYZsh{} (≈ 4 lines)}
+            \PY{c+c1}{\PYZsh{} Step 1: Initialize overlap as a \PYZdq{}False\PYZdq{} flag. (≈ 1 line)}
+            \PY{n}{overlap} \PY{o}{=} \PY{k+kc}{None}
+            
+            \PY{c+c1}{\PYZsh{} Step 2: loop over the previous\PYZus{}segments start and end times.}
+            \PY{c+c1}{\PYZsh{} Compare start/end times and set the flag to True if there is an overlap (≈ 3 lines)}
+            \PY{k}{for} \PY{n}{previous\PYZus{}start}\PY{p}{,} \PY{n}{previous\PYZus{}end} \PY{o+ow}{in} \PY{n}{previous\PYZus{}segments}\PY{p}{:}
+                \PY{k}{if} \PY{k+kc}{None}\PY{p}{:}
+                    \PY{n}{overlap} \PY{o}{=} \PY{k+kc}{None}
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} END CODE HERE \PYZsh{}\PYZsh{}\PYZsh{}}
+        
+            \PY{k}{return} \PY{n}{overlap}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{overlap1} \PY{o}{=} \PY{n}{is\PYZus{}overlapping}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{950}\PY{p}{,} \PY{l+m+mi}{1430}\PY{p}{)}\PY{p}{,} \PY{p}{[}\PY{p}{(}\PY{l+m+mi}{2000}\PY{p}{,} \PY{l+m+mi}{2550}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mi}{260}\PY{p}{,} \PY{l+m+mi}{949}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+        \PY{n}{overlap2} \PY{o}{=} \PY{n}{is\PYZus{}overlapping}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{2305}\PY{p}{,} \PY{l+m+mi}{2950}\PY{p}{)}\PY{p}{,} \PY{p}{[}\PY{p}{(}\PY{l+m+mi}{824}\PY{p}{,} \PY{l+m+mi}{1532}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mi}{1900}\PY{p}{,} \PY{l+m+mi}{2305}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mi}{3424}\PY{p}{,} \PY{l+m+mi}{3656}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Overlap 1 = }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{overlap1}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Overlap 2 = }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{overlap2}\PY{p}{)}
+\end{Verbatim}
+
+    \textbf{Expected Output}:
+
+\textbf{Overlap 1}
+
+False
+
+\textbf{Overlap 2}
+
+True
+
+    \paragraph{Insert audio clip}\label{insert-audio-clip}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Let's use the previous helper functions to insert a new audio clip
+  onto the 10 second background at a random time.
+\item
+  We will ensure that any newly inserted segment doesn't overlap with
+  previously inserted segments.
+\end{itemize}
+
+\textbf{Exercise}: * Implement \texttt{insert\_audio\_clip()} to overlay
+an audio clip onto the background 10sec clip. * You implement 4 steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Get the length of the audio clip that is to be inserted.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Get a random time segment whose duration equals the duration of the
+    audio clip that is to be inserted.
+  \end{itemize}
+\item
+  Make sure that the time segment does not overlap with any of the
+  previous time segments.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    If it is overlapping, then go back to step 1 and pick a new time
+    segment.
+  \end{itemize}
+\item
+  Append the new time segment to the list of existing time segments
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    This keeps track of all the segments you've inserted.\\
+  \end{itemize}
+\item
+  Overlay the audio clip over the background using pydub. We have
+  implemented this for you.
+\end{enumerate}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} GRADED FUNCTION: insert\PYZus{}audio\PYZus{}clip}
+        
+        \PY{k}{def} \PY{n+nf}{insert\PYZus{}audio\PYZus{}clip}\PY{p}{(}\PY{n}{background}\PY{p}{,} \PY{n}{audio\PYZus{}clip}\PY{p}{,} \PY{n}{previous\PYZus{}segments}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+sd}{    Insert a new audio segment over the background noise at a random time step, ensuring that the }
+        \PY{l+s+sd}{    audio segment does not overlap with existing segments.}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Arguments:}
+        \PY{l+s+sd}{    background \PYZhy{}\PYZhy{} a 10 second background audio recording.  }
+        \PY{l+s+sd}{    audio\PYZus{}clip \PYZhy{}\PYZhy{} the audio clip to be inserted/overlaid. }
+        \PY{l+s+sd}{    previous\PYZus{}segments \PYZhy{}\PYZhy{} times where audio segments have already been placed}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Returns:}
+        \PY{l+s+sd}{    new\PYZus{}background \PYZhy{}\PYZhy{} the updated background audio}
+        \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+            
+            \PY{c+c1}{\PYZsh{} Get the duration of the audio clip in ms}
+            \PY{n}{segment\PYZus{}ms} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{audio\PYZus{}clip}\PY{p}{)}
+            
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} START CODE HERE \PYZsh{}\PYZsh{}\PYZsh{} }
+            \PY{c+c1}{\PYZsh{} Step 1: Use one of the helper functions to pick a random time segment onto which to insert }
+            \PY{c+c1}{\PYZsh{} the new audio clip. (≈ 1 line)}
+            \PY{n}{segment\PYZus{}time} \PY{o}{=} \PY{k+kc}{None}
+            
+            \PY{c+c1}{\PYZsh{} Step 2: Check if the new segment\PYZus{}time overlaps with one of the previous\PYZus{}segments. If so, keep }
+            \PY{c+c1}{\PYZsh{} picking new segment\PYZus{}time at random until it doesn\PYZsq{}t overlap. (≈ 2 lines)}
+            \PY{k}{while} \PY{k+kc}{None}\PY{p}{:}
+                \PY{n}{segment\PYZus{}time} \PY{o}{=} \PY{k+kc}{None}
+        
+            \PY{c+c1}{\PYZsh{} Step 3: Append the new segment\PYZus{}time to the list of previous\PYZus{}segments (≈ 1 line)}
+            \PY{k+kc}{None}
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} END CODE HERE \PYZsh{}\PYZsh{}\PYZsh{}}
+            
+            \PY{c+c1}{\PYZsh{} Step 4: Superpose audio segment and background}
+            \PY{n}{new\PYZus{}background} \PY{o}{=} \PY{n}{background}\PY{o}{.}\PY{n}{overlay}\PY{p}{(}\PY{n}{audio\PYZus{}clip}\PY{p}{,} \PY{n}{position} \PY{o}{=} \PY{n}{segment\PYZus{}time}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+            
+            \PY{k}{return} \PY{n}{new\PYZus{}background}\PY{p}{,} \PY{n}{segment\PYZus{}time}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+        \PY{n}{audio\PYZus{}clip}\PY{p}{,} \PY{n}{segment\PYZus{}time} \PY{o}{=} \PY{n}{insert\PYZus{}audio\PYZus{}clip}\PY{p}{(}\PY{n}{backgrounds}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{activates}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{p}{(}\PY{l+m+mi}{3790}\PY{p}{,} \PY{l+m+mi}{4400}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+        \PY{n}{audio\PYZus{}clip}\PY{o}{.}\PY{n}{export}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{insert\PYZus{}test.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Segment Time: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{segment\PYZus{}time}\PY{p}{)}
+        \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{insert\PYZus{}test.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \textbf{Expected Output}
+
+\textbf{Segment Time}
+
+(2254, 3169)
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Expected audio}
+        \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{audio\PYZus{}examples/insert\PYZus{}reference.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \paragraph{Insert ones for the labels of the positive
+target}\label{insert-ones-for-the-labels-of-the-positive-target}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Implement code to update the labels $y^{\langle t \rangle}$, assuming
+  you just inserted an ``activate'' audio clip.
+\item
+  In the code below, \texttt{y} is a \texttt{(1,1375)} dimensional
+  vector, since $T_y = 1375$.
+\item
+  If the ``activate'' audio clip ends at time step $t$, then set
+  $y^{\langle t+1 \rangle} = 1$ and also set the next 49 additional
+  consecutive values to 1.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    Notice that if the target word appears near the end of the entire
+    audio clip, there may not be 50 additional time steps to set to 1.
+  \item
+    Make sure you don't run off the end of the array and try to update
+    \texttt{y{[}0{]}{[}1375{]}}, since the valid indices are
+    \texttt{y{[}0{]}{[}0{]}} through \texttt{y{[}0{]}{[}1374{]}} because
+    $T_y = 1375$.
+  \item
+    So if ``activate'' ends at step 1370, you would get only set
+    \texttt{y{[}0{]}{[}1371{]} = y{[}0{]}{[}1372{]} = y{[}0{]}{[}1373{]} = y{[}0{]}{[}1374{]} = 1}
+  \end{itemize}
+\end{itemize}
+
+\textbf{Exercise}: Implement \texttt{insert\_ones()}. * You can use a
+for loop. * If you want to use Python's array slicing operations, you
+can do so as well. * If a segment ends at \texttt{segment\_end\_ms}
+(using a 10000 step discretization), * To convert it to the indexing for
+the outputs $y$ (using a $1375$ step discretization), we will use this
+formula:
+
+\begin{verbatim}
+    segment_end_y = int(segment_end_ms * Ty / 10000.0)
+\end{verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} GRADED FUNCTION: insert\PYZus{}ones}
+        
+        \PY{k}{def} \PY{n+nf}{insert\PYZus{}ones}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{segment\PYZus{}end\PYZus{}ms}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+sd}{    Update the label vector y. The labels of the 50 output steps strictly after the end of the segment }
+        \PY{l+s+sd}{    should be set to 1. By strictly we mean that the label of segment\PYZus{}end\PYZus{}y should be 0 while, the}
+        \PY{l+s+sd}{    50 following labels should be ones.}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Arguments:}
+        \PY{l+s+sd}{    y \PYZhy{}\PYZhy{} numpy array of shape (1, Ty), the labels of the training example}
+        \PY{l+s+sd}{    segment\PYZus{}end\PYZus{}ms \PYZhy{}\PYZhy{} the end time of the segment in ms}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Returns:}
+        \PY{l+s+sd}{    y \PYZhy{}\PYZhy{} updated labels}
+        \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+            
+            \PY{c+c1}{\PYZsh{} duration of the background (in terms of spectrogram time\PYZhy{}steps)}
+            \PY{n}{segment\PYZus{}end\PYZus{}y} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{segment\PYZus{}end\PYZus{}ms} \PY{o}{*} \PY{n}{Ty} \PY{o}{/} \PY{l+m+mf}{10000.0}\PY{p}{)}
+            
+            \PY{c+c1}{\PYZsh{} Add 1 to the correct index in the background label (y)}
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} START CODE HERE \PYZsh{}\PYZsh{}\PYZsh{} (≈ 3 lines)}
+            \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{k+kc}{None}\PY{p}{,} \PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+                \PY{k}{if} \PY{k+kc}{None} \PY{o}{\PYZlt{}} \PY{k+kc}{None}\PY{p}{:}
+                    \PY{n}{y}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{k+kc}{None}
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} END CODE HERE \PYZsh{}\PYZsh{}\PYZsh{}}
+            
+            \PY{k}{return} \PY{n}{y}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{arr1} \PY{o}{=} \PY{n}{insert\PYZus{}ones}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{Ty}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{9700}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{insert\PYZus{}ones}\PY{p}{(}\PY{n}{arr1}\PY{p}{,} \PY{l+m+mi}{4251}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{p}{:}\PY{p}{]}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sanity checks:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{arr1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1333}\PY{p}{]}\PY{p}{,} \PY{n}{arr1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{634}\PY{p}{]}\PY{p}{,} \PY{n}{arr1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{635}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    \textbf{Expected Output}
+
+\textbf{sanity checks}:
+
+0.0 1.0 0.0
+
+    \paragraph{Creating a training
+example}\label{creating-a-training-example}
+
+Finally, you can use \texttt{insert\_audio\_clip} and
+\texttt{insert\_ones} to create a new training example.
+
+\textbf{Exercise}: Implement \texttt{create\_training\_example()}. You
+will need to carry out the following steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Initialize the label vector $y$ as a numpy array of zeros and shape
+  $(1, T_y)$.
+\item
+  Initialize the set of existing segments to an empty list.
+\item
+  Randomly select 0 to 4 ``activate'' audio clips, and insert them onto
+  the 10 second clip. Also insert labels at the correct position in the
+  label vector $y$.
+\item
+  Randomly select 0 to 2 negative audio clips, and insert them into the
+  10 second clip.
+\end{enumerate}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} GRADED FUNCTION: create\PYZus{}training\PYZus{}example}
+        
+        \PY{k}{def} \PY{n+nf}{create\PYZus{}training\PYZus{}example}\PY{p}{(}\PY{n}{background}\PY{p}{,} \PY{n}{activates}\PY{p}{,} \PY{n}{negatives}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+sd}{    Creates a training example with a given background, activates, and negatives.}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Arguments:}
+        \PY{l+s+sd}{    background \PYZhy{}\PYZhy{} a 10 second background audio recording}
+        \PY{l+s+sd}{    activates \PYZhy{}\PYZhy{} a list of audio segments of the word \PYZdq{}activate\PYZdq{}}
+        \PY{l+s+sd}{    negatives \PYZhy{}\PYZhy{} a list of audio segments of random words that are not \PYZdq{}activate\PYZdq{}}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Returns:}
+        \PY{l+s+sd}{    x \PYZhy{}\PYZhy{} the spectrogram of the training example}
+        \PY{l+s+sd}{    y \PYZhy{}\PYZhy{} the label at each time step of the spectrogram}
+        \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+            
+            \PY{c+c1}{\PYZsh{} Set the random seed}
+            \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{18}\PY{p}{)}
+            
+            \PY{c+c1}{\PYZsh{} Make background quieter}
+            \PY{n}{background} \PY{o}{=} \PY{n}{background} \PY{o}{\PYZhy{}} \PY{l+m+mi}{20}
+        
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} START CODE HERE \PYZsh{}\PYZsh{}\PYZsh{}}
+            \PY{c+c1}{\PYZsh{} Step 1: Initialize y (label vector) of zeros (≈ 1 line)}
+            \PY{n}{y} \PY{o}{=} \PY{k+kc}{None}
+        
+            \PY{c+c1}{\PYZsh{} Step 2: Initialize segment times as an empty list (≈ 1 line)}
+            \PY{n}{previous\PYZus{}segments} \PY{o}{=} \PY{k+kc}{None}
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} END CODE HERE \PYZsh{}\PYZsh{}\PYZsh{}}
+            
+            \PY{c+c1}{\PYZsh{} Select 0\PYZhy{}4 random \PYZdq{}activate\PYZdq{} audio clips from the entire list of \PYZdq{}activates\PYZdq{} recordings}
+            \PY{n}{number\PYZus{}of\PYZus{}activates} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}
+            \PY{n}{random\PYZus{}indices} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{activates}\PY{p}{)}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{number\PYZus{}of\PYZus{}activates}\PY{p}{)}
+            \PY{n}{random\PYZus{}activates} \PY{o}{=} \PY{p}{[}\PY{n}{activates}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{random\PYZus{}indices}\PY{p}{]}
+            
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} START CODE HERE \PYZsh{}\PYZsh{}\PYZsh{} (≈ 3 lines)}
+            \PY{c+c1}{\PYZsh{} Step 3: Loop over randomly selected \PYZdq{}activate\PYZdq{} clips and insert in background}
+            \PY{k}{for} \PY{n}{random\PYZus{}activate} \PY{o+ow}{in} \PY{n}{random\PYZus{}activates}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Insert the audio clip on the background}
+                \PY{n}{background}\PY{p}{,} \PY{n}{segment\PYZus{}time} \PY{o}{=} \PY{k+kc}{None}
+                \PY{c+c1}{\PYZsh{} Retrieve segment\PYZus{}start and segment\PYZus{}end from segment\PYZus{}time}
+                \PY{n}{segment\PYZus{}start}\PY{p}{,} \PY{n}{segment\PYZus{}end} \PY{o}{=} \PY{k+kc}{None}
+                \PY{c+c1}{\PYZsh{} Insert labels in \PYZdq{}y\PYZdq{}}
+                \PY{n}{y} \PY{o}{=} \PY{k+kc}{None}
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} END CODE HERE \PYZsh{}\PYZsh{}\PYZsh{}}
+        
+            \PY{c+c1}{\PYZsh{} Select 0\PYZhy{}2 random negatives audio recordings from the entire list of \PYZdq{}negatives\PYZdq{} recordings}
+            \PY{n}{number\PYZus{}of\PYZus{}negatives} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
+            \PY{n}{random\PYZus{}indices} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{negatives}\PY{p}{)}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{number\PYZus{}of\PYZus{}negatives}\PY{p}{)}
+            \PY{n}{random\PYZus{}negatives} \PY{o}{=} \PY{p}{[}\PY{n}{negatives}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{random\PYZus{}indices}\PY{p}{]}
+        
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} START CODE HERE \PYZsh{}\PYZsh{}\PYZsh{} (≈ 2 lines)}
+            \PY{c+c1}{\PYZsh{} Step 4: Loop over randomly selected negative clips and insert in background}
+            \PY{k}{for} \PY{n}{random\PYZus{}negative} \PY{o+ow}{in} \PY{n}{random\PYZus{}negatives}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Insert the audio clip on the background }
+                \PY{n}{background}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{k+kc}{None}
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} END CODE HERE \PYZsh{}\PYZsh{}\PYZsh{}}
+            
+            \PY{c+c1}{\PYZsh{} Standardize the volume of the audio clip }
+            \PY{n}{background} \PY{o}{=} \PY{n}{match\PYZus{}target\PYZus{}amplitude}\PY{p}{(}\PY{n}{background}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{20.0}\PY{p}{)}
+        
+            \PY{c+c1}{\PYZsh{} Export new training example }
+            \PY{n}{file\PYZus{}handle} \PY{o}{=} \PY{n}{background}\PY{o}{.}\PY{n}{export}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{train}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{File (train.wav) was saved in your directory.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            
+            \PY{c+c1}{\PYZsh{} Get and plot spectrogram of the new recording (background with superposition of positive and negatives)}
+            \PY{n}{x} \PY{o}{=} \PY{n}{graph\PYZus{}spectrogram}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{train.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            
+            \PY{k}{return} \PY{n}{x}\PY{p}{,} \PY{n}{y}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{x}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{n}{create\PYZus{}training\PYZus{}example}\PY{p}{(}\PY{n}{backgrounds}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{activates}\PY{p}{,} \PY{n}{negatives}\PY{p}{)}
+\end{Verbatim}
+
+    \textbf{Expected Output} 
+
+    Now you can listen to the training example you created and compare it to
+the spectrogram generated above.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{train.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \textbf{Expected Output}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{audio\PYZus{}examples/train\PYZus{}reference.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    Finally, you can plot the associated labels for the generated training
+example.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    \textbf{Expected Output} 
+
+    \subsection{1.4 - Full training set}\label{full-training-set}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  You've now implemented the code needed to generate a single training
+  example.
+\item
+  We used this process to generate a large training set.
+\item
+  To save time, we've already generated a set of training examples.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Load preprocessed training examples}
+        \PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./XY\PYZus{}train/X.npy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{Y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./XY\PYZus{}train/Y.npy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \subsection{1.5 - Development set}\label{development-set}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  To test our model, we recorded a development set of 25 examples.
+\item
+  While our training data is synthesized, we want to create a
+  development set using the same distribution as the real inputs.
+\item
+  Thus, we recorded 25 10-second audio clips of people saying
+  ``activate'' and other random words, and labeled them by hand.
+\item
+  This follows the principle described in Course 3 ``Structuring Machine
+  Learning Projects'' that we should create the dev set to be as similar
+  as possible to the test set distribution
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    This is why our \textbf{dev set uses real audio} rather than
+    synthesized audio.
+  \end{itemize}
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Load preprocessed dev set examples}
+        \PY{n}{X\PYZus{}dev} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./XY\PYZus{}dev/X\PYZus{}dev.npy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{Y\PYZus{}dev} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./XY\PYZus{}dev/Y\PYZus{}dev.npy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \section{2 - Model}\label{model}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Now that you've built a dataset, let's write and train a trigger word
+  detection model!
+\item
+  The model will use 1-D convolutional layers, GRU layers, and dense
+  layers.
+\item
+  Let's load the packages that will allow you to use these layers in
+  Keras. This might take a minute to load.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{from} \PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{callbacks} \PY{k}{import} \PY{n}{ModelCheckpoint}
+        \PY{k+kn}{from} \PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{models} \PY{k}{import} \PY{n}{Model}\PY{p}{,} \PY{n}{load\PYZus{}model}\PY{p}{,} \PY{n}{Sequential}
+        \PY{k+kn}{from} \PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{layers} \PY{k}{import} \PY{n}{Dense}\PY{p}{,} \PY{n}{Activation}\PY{p}{,} \PY{n}{Dropout}\PY{p}{,} \PY{n}{Input}\PY{p}{,} \PY{n}{Masking}\PY{p}{,} \PY{n}{TimeDistributed}\PY{p}{,} \PY{n}{LSTM}\PY{p}{,} \PY{n}{Conv1D}
+        \PY{k+kn}{from} \PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{layers} \PY{k}{import} \PY{n}{GRU}\PY{p}{,} \PY{n}{Bidirectional}\PY{p}{,} \PY{n}{BatchNormalization}\PY{p}{,} \PY{n}{Reshape}
+        \PY{k+kn}{from} \PY{n+nn}{keras}\PY{n+nn}{.}\PY{n+nn}{optimizers} \PY{k}{import} \PY{n}{Adam}
+\end{Verbatim}
+
+    \subsection{2.1 - Build the model}\label{build-the-model}
+
+Our goal is to build a network that will ingest a spectrogram and output
+a signal when it detects the trigger word. This network will use 4
+layers: * A convolutional layer * Two GRU layers * A dense layer.
+
+Here is the architecture we will use.
+
+\textbf{Figure 3}
+
+\subparagraph{1D convolutional layer}\label{d-convolutional-layer}
+
+One key layer of this model is the 1D convolutional step (near the
+bottom of Figure 3). * It inputs the 5511 step spectrogram. Each step is
+a vector of 101 units. * It outputs a 1375 step output * This output is
+further processed by multiple layers to get the final $T_y = 1375$ step
+output. * This 1D convolutional layer plays a role similar to the 2D
+convolutions you saw in Course 4, of extracting low-level features and
+then possibly generating an output of a smaller dimension. *
+Computationally, the 1-D conv layer also helps speed up the model
+because now the GRU can process only 1375 timesteps rather than 5511
+timesteps.
+
+\subparagraph{GRU, dense and sigmoid}\label{gru-dense-and-sigmoid}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  The two GRU layers read the sequence of inputs from left to right.
+\item
+  A dense plus sigmoid layer makes a prediction for
+  $y^{\langle t \rangle}$.
+\item
+  Because $y$ is a binary value (0 or 1), we use a sigmoid output at the
+  last layer to estimate the chance of the output being 1, corresponding
+  to the user having just said ``activate.''
+\end{itemize}
+
+\paragraph{Unidirectional RNN}\label{unidirectional-rnn}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Note that we use a \textbf{unidirectional RNN} rather than a
+  bidirectional RNN.
+\item
+  This is really important for trigger word detection, since we want to
+  be able to detect the trigger word almost immediately after it is
+  said.
+\item
+  If we used a bidirectional RNN, we would have to wait for the whole
+  10sec of audio to be recorded before we could tell if ``activate'' was
+  said in the first second of the audio clip.
+\end{itemize}
+
+    \paragraph{Implement the model}\label{implement-the-model}
+
+Implementing the model can be done in four steps:
+
+\textbf{Step 1}: CONV layer. Use \texttt{Conv1D()} to implement this,
+with 196 filters, a filter size of 15 (\texttt{kernel\_size=15}), and
+stride of 4.
+\href{https://keras.io/layers/convolutional/\#conv1d}{conv1d}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{output_x = Conv1D(filters=...,kernel_size=...,strides=...)(input_x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Follow this with a ReLu activation. Note that we can pass in the name
+  of the desired activation as a string, all in lowercase letters.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{output_x = Activation(}\StringTok{"..."}\NormalTok{)(input_x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Follow this with dropout, using a keep rate of 0.8
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{output_x = Dropout(rate=...)(input_x)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Step 2}: First GRU layer. To generate the GRU layer, use 128
+units.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{output_x = GRU(units=..., return_sequences = ...)(input_x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  Return sequences instead of just the last time step's prediction to
+  ensures that all the GRU's hidden states are fed to the next layer.
+\item
+  Follow this with dropout, using a keep rate of 0.8.
+\item
+  Follow this with batch normalization. No parameters need to be set.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{output_x = BatchNormalization()(input_x)}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+\textbf{Step 3}: Second GRU layer. This has the same specifications as
+the first GRU layer. * Follow this with a dropout, batch normalization,
+and then another dropout.
+
+\textbf{Step 4}: Create a time-distributed dense layer as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X = TimeDistributed(Dense(}\DecValTok{1}\NormalTok{, activation = }\StringTok{"sigmoid"}\NormalTok{))(X)}
+\end{Highlighting}
+\end{Shaded}
+
+This creates a dense layer followed by a sigmoid, so that the parameters
+used for the dense layer are the same for every time
+step.\\Documentation: * \href{https://keras.io/layers/wrappers/}{Keras
+documentation on wrappers}.\\* To learn more, you can read this blog
+post
+\href{https://machinelearningmastery.com/timedistributed-layer-for-long-short-term-memory-networks-in-python/}{How
+to Use the TimeDistributed Layer in Keras}.
+
+\textbf{Exercise}: Implement \texttt{model()}, the architecture is
+presented in Figure 3.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} GRADED FUNCTION: model}
+        
+        \PY{k}{def} \PY{n+nf}{model}\PY{p}{(}\PY{n}{input\PYZus{}shape}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+sd}{    Function creating the model\PYZsq{}s graph in Keras.}
+        \PY{l+s+sd}{    }
+        \PY{l+s+sd}{    Argument:}
+        \PY{l+s+sd}{    input\PYZus{}shape \PYZhy{}\PYZhy{} shape of the model\PYZsq{}s input data (using Keras conventions)}
+        
+        \PY{l+s+sd}{    Returns:}
+        \PY{l+s+sd}{    model \PYZhy{}\PYZhy{} Keras model instance}
+        \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+            
+            \PY{n}{X\PYZus{}input} \PY{o}{=} \PY{n}{Input}\PY{p}{(}\PY{n}{shape} \PY{o}{=} \PY{n}{input\PYZus{}shape}\PY{p}{)}
+            
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} START CODE HERE \PYZsh{}\PYZsh{}\PYZsh{}}
+            
+            \PY{c+c1}{\PYZsh{} Step 1: CONV layer (≈4 lines)}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} CONV1D}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} Batch normalization}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} ReLu activation}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} dropout (use 0.8)}
+        
+            \PY{c+c1}{\PYZsh{} Step 2: First GRU Layer (≈4 lines)}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} GRU (use 128 units and return the sequences)}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} dropout (use 0.8)}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} Batch normalization}
+            
+            \PY{c+c1}{\PYZsh{} Step 3: Second GRU Layer (≈4 lines)}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} GRU (use 128 units and return the sequences)}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} dropout (use 0.8)}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} Batch normalization}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None}                                 \PY{c+c1}{\PYZsh{} dropout (use 0.8)}
+            
+            \PY{c+c1}{\PYZsh{} Step 4: Time\PYZhy{}distributed dense layer (see given code in instructions) (≈1 line)}
+            \PY{n}{X} \PY{o}{=} \PY{k+kc}{None} \PY{c+c1}{\PYZsh{} time distributed  (sigmoid)}
+        
+            \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} END CODE HERE \PYZsh{}\PYZsh{}\PYZsh{}}
+        
+            \PY{n}{model} \PY{o}{=} \PY{n}{Model}\PY{p}{(}\PY{n}{inputs} \PY{o}{=} \PY{n}{X\PYZus{}input}\PY{p}{,} \PY{n}{outputs} \PY{o}{=} \PY{n}{X}\PY{p}{)}
+            
+            \PY{k}{return} \PY{n}{model}  
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{model} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{input\PYZus{}shape} \PY{o}{=} \PY{p}{(}\PY{n}{Tx}\PY{p}{,} \PY{n}{n\PYZus{}freq}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    Let's print the model summary to keep track of the shapes.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{model}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+    \textbf{Expected Output}:
+
+\textbf{Total params}
+
+522,561
+
+\textbf{Trainable params}
+
+521,657
+
+\textbf{Non-trainable params}
+
+904
+
+    The output of the network is of shape (None, 1375, 1) while the input is
+(None, 5511, 101). The Conv1D has reduced the number of steps from 5511
+to 1375.
+
+    \subsection{2.2 - Fit the model}\label{fit-the-model}
+
+    \begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Trigger word detection takes a long time to train.
+\item
+  To save time, we've already trained a model for about 3 hours on a GPU
+  using the architecture you built above, and a large training set of
+  about 4000 examples.
+\item
+  Let's load the model.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{model} \PY{o}{=} \PY{n}{load\PYZus{}model}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./models/tr\PYZus{}model.h5}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+    You can train the model further, using the Adam optimizer and binary
+cross entropy loss, as follows. This will run quickly because we are
+training just for one epoch and with a small training set of 26
+examples.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{opt} \PY{o}{=} \PY{n}{Adam}\PY{p}{(}\PY{n}{lr}\PY{o}{=}\PY{l+m+mf}{0.0001}\PY{p}{,} \PY{n}{beta\PYZus{}1}\PY{o}{=}\PY{l+m+mf}{0.9}\PY{p}{,} \PY{n}{beta\PYZus{}2}\PY{o}{=}\PY{l+m+mf}{0.999}\PY{p}{,} \PY{n}{decay}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{)}
+        \PY{n}{model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}\PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{binary\PYZus{}crossentropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{optimizer}\PY{o}{=}\PY{n}{opt}\PY{p}{,} \PY{n}{metrics}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{,} \PY{n}{batch\PYZus{}size} \PY{o}{=} \PY{l+m+mi}{5}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+
+    \subsection{2.3 - Test the model}\label{test-the-model}
+
+Finally, let's see how your model performs on the dev set.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{loss}\PY{p}{,} \PY{n}{acc} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{evaluate}\PY{p}{(}\PY{n}{X\PYZus{}dev}\PY{p}{,} \PY{n}{Y\PYZus{}dev}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Dev set accuracy = }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{acc}\PY{p}{)}
+\end{Verbatim}
+
+    This looks pretty good! * However, accuracy isn't a great metric for
+this task * Since the labels are heavily skewed to 0's, a neural network
+that just outputs 0's would get slightly over 90\% accuracy. * We could
+define more useful metrics such as F1 score or Precision/Recall. * Let's
+not bother with that here, and instead just empirically see how the
+model does with some predictions.
+
+    \section{3 - Making Predictions}\label{making-predictions}
+
+Now that you have built a working model for trigger word detection,
+let's use it to make predictions. This code snippet runs audio (saved in
+a wav file) through the network.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k}{def} \PY{n+nf}{detect\PYZus{}triggerword}\PY{p}{(}\PY{n}{filename}\PY{p}{)}\PY{p}{:}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+        
+            \PY{n}{x} \PY{o}{=} \PY{n}{graph\PYZus{}spectrogram}\PY{p}{(}\PY{n}{filename}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} the spectrogram outputs (freqs, Tx) and we want (Tx, freqs) to input into the model}
+            \PY{n}{x}  \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{swapaxes}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+            \PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{expand\PYZus{}dims}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+            \PY{n}{predictions} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+            
+            \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{predictions}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{probability}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+            \PY{k}{return} \PY{n}{predictions}
+\end{Verbatim}
+
+    \paragraph{Insert a chime to acknowledge the ``activate''
+trigger}\label{insert-a-chime-to-acknowledge-the-activate-trigger}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Once you've estimated the probability of having detected the word
+  ``activate'' at each output step, you can trigger a ``chiming'' sound
+  to play when the probability is above a certain threshold.
+\item
+  $y^{\langle t \rangle}$ might be near 1 for many values in a row after
+  ``activate'' is said, yet we want to chime only once.
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    So we will insert a chime sound at most once every 75 output steps.
+  \item
+    This will help prevent us from inserting two chimes for a single
+    instance of ``activate''.
+  \item
+    This plays a role similar to non-max suppression from computer
+    vision.
+  \end{itemize}
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{chime\PYZus{}file} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{audio\PYZus{}examples/chime.wav}\PY{l+s+s2}{\PYZdq{}}
+        \PY{k}{def} \PY{n+nf}{chime\PYZus{}on\PYZus{}activate}\PY{p}{(}\PY{n}{filename}\PY{p}{,} \PY{n}{predictions}\PY{p}{,} \PY{n}{threshold}\PY{p}{)}\PY{p}{:}
+            \PY{n}{audio\PYZus{}clip} \PY{o}{=} \PY{n}{AudioSegment}\PY{o}{.}\PY{n}{from\PYZus{}wav}\PY{p}{(}\PY{n}{filename}\PY{p}{)}
+            \PY{n}{chime} \PY{o}{=} \PY{n}{AudioSegment}\PY{o}{.}\PY{n}{from\PYZus{}wav}\PY{p}{(}\PY{n}{chime\PYZus{}file}\PY{p}{)}
+            \PY{n}{Ty} \PY{o}{=} \PY{n}{predictions}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{c+c1}{\PYZsh{} Step 1: Initialize the number of consecutive output steps to 0}
+            \PY{n}{consecutive\PYZus{}timesteps} \PY{o}{=} \PY{l+m+mi}{0}
+            \PY{c+c1}{\PYZsh{} Step 2: Loop over the output steps in the y}
+            \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{Ty}\PY{p}{)}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Step 3: Increment consecutive output steps}
+                \PY{n}{consecutive\PYZus{}timesteps} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                \PY{c+c1}{\PYZsh{} Step 4: If prediction is higher than the threshold and more than 75 consecutive output steps have passed}
+                \PY{k}{if} \PY{n}{predictions}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n}{threshold} \PY{o+ow}{and} \PY{n}{consecutive\PYZus{}timesteps} \PY{o}{\PYZgt{}} \PY{l+m+mi}{75}\PY{p}{:}
+                    \PY{c+c1}{\PYZsh{} Step 5: Superpose audio and background using pydub}
+                    \PY{n}{audio\PYZus{}clip} \PY{o}{=} \PY{n}{audio\PYZus{}clip}\PY{o}{.}\PY{n}{overlay}\PY{p}{(}\PY{n}{chime}\PY{p}{,} \PY{n}{position} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{i} \PY{o}{/} \PY{n}{Ty}\PY{p}{)} \PY{o}{*} \PY{n}{audio\PYZus{}clip}\PY{o}{.}\PY{n}{duration\PYZus{}seconds}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}
+                    \PY{c+c1}{\PYZsh{} Step 6: Reset consecutive output steps to 0}
+                    \PY{n}{consecutive\PYZus{}timesteps} \PY{o}{=} \PY{l+m+mi}{0}
+                
+            \PY{n}{audio\PYZus{}clip}\PY{o}{.}\PY{n}{export}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{chime\PYZus{}output.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wav}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \subsection{3.3 - Test on dev examples}\label{test-on-dev-examples}
+
+    Let's explore how our model performs on two unseen audio clips from the
+development set. Lets first listen to the two dev set clips.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./raw\PYZus{}data/dev/1.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./raw\PYZus{}data/dev/2.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    Now lets run the model on these audio clips and see if it adds a chime
+after ``activate''!
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{filename} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./raw\PYZus{}data/dev/1.wav}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{prediction} \PY{o}{=} \PY{n}{detect\PYZus{}triggerword}\PY{p}{(}\PY{n}{filename}\PY{p}{)}
+        \PY{n}{chime\PYZus{}on\PYZus{}activate}\PY{p}{(}\PY{n}{filename}\PY{p}{,} \PY{n}{prediction}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{)}
+        \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./chime\PYZus{}output.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{filename}  \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./raw\PYZus{}data/dev/2.wav}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{prediction} \PY{o}{=} \PY{n}{detect\PYZus{}triggerword}\PY{p}{(}\PY{n}{filename}\PY{p}{)}
+        \PY{n}{chime\PYZus{}on\PYZus{}activate}\PY{p}{(}\PY{n}{filename}\PY{p}{,} \PY{n}{prediction}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{)}
+        \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./chime\PYZus{}output.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \section{Congratulations}\label{congratulations}
+
+You've come to the end of this assignment!
+
+\subsection{Here's what you should
+remember:}\label{heres-what-you-should-remember}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Data synthesis is an effective way to create a large training set for
+  speech problems, specifically trigger word detection.
+\item
+  Using a spectrogram and optionally a 1D conv layer is a common
+  pre-processing step prior to passing audio data to an RNN, GRU or
+  LSTM.
+\item
+  An end-to-end deep learning approach can be used to build a very
+  effective trigger word detection system.
+\end{itemize}
+
+\emph{Congratulations} on finishing the final assignment!
+
+Thank you for sticking with us through the end and for all the hard work
+you've put into learning deep learning. We hope you have enjoyed the
+course!
+
+    \section{4 - Try your own example!
+(OPTIONAL/UNGRADED)}\label{try-your-own-example-optionalungraded}
+
+In this optional and ungraded portion of this notebook, you can try your
+model on your own audio clips!
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Record a 10 second audio clip of you saying the word ``activate'' and
+  other random words, and upload it to the Coursera hub as
+  \texttt{myaudio.wav}.
+\item
+  Be sure to upload the audio as a wav file.
+\item
+  If your audio is recorded in a different format (such as mp3) there is
+  free software that you can find online for converting it to wav.
+\item
+  If your audio recording is not 10 seconds, the code below will either
+  trim or pad it as needed to make it 10 seconds.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Preprocess the audio to the correct format}
+        \PY{k}{def} \PY{n+nf}{preprocess\PYZus{}audio}\PY{p}{(}\PY{n}{filename}\PY{p}{)}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Trim or pad audio segment to 10000ms}
+            \PY{n}{padding} \PY{o}{=} \PY{n}{AudioSegment}\PY{o}{.}\PY{n}{silent}\PY{p}{(}\PY{n}{duration}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{)}
+            \PY{n}{segment} \PY{o}{=} \PY{n}{AudioSegment}\PY{o}{.}\PY{n}{from\PYZus{}wav}\PY{p}{(}\PY{n}{filename}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{10000}\PY{p}{]}
+            \PY{n}{segment} \PY{o}{=} \PY{n}{padding}\PY{o}{.}\PY{n}{overlay}\PY{p}{(}\PY{n}{segment}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} Set frame rate to 44100}
+            \PY{n}{segment} \PY{o}{=} \PY{n}{segment}\PY{o}{.}\PY{n}{set\PYZus{}frame\PYZus{}rate}\PY{p}{(}\PY{l+m+mi}{44100}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} Export as wav}
+            \PY{n}{segment}\PY{o}{.}\PY{n}{export}\PY{p}{(}\PY{n}{filename}\PY{p}{,} \PY{n+nb}{format}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{wav}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+    Once you've uploaded your audio file to Coursera, put the path to your
+file in the variable below.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{your\PYZus{}filename} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{audio\PYZus{}examples/my\PYZus{}audio.wav}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{preprocess\PYZus{}audio}\PY{p}{(}\PY{n}{your\PYZus{}filename}\PY{p}{)}
+        \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{n}{your\PYZus{}filename}\PY{p}{)} \PY{c+c1}{\PYZsh{} listen to the audio you uploaded }
+\end{Verbatim}
+
+    Finally, use the model to predict when you say activate in the 10 second
+audio clip, and trigger a chime. If beeps are not being added
+appropriately, try to adjust the chime\_threshold.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{chime\PYZus{}threshold} \PY{o}{=} \PY{l+m+mf}{0.5}
+        \PY{n}{prediction} \PY{o}{=} \PY{n}{detect\PYZus{}triggerword}\PY{p}{(}\PY{n}{your\PYZus{}filename}\PY{p}{)}
+        \PY{n}{chime\PYZus{}on\PYZus{}activate}\PY{p}{(}\PY{n}{your\PYZus{}filename}\PY{p}{,} \PY{n}{prediction}\PY{p}{,} \PY{n}{chime\PYZus{}threshold}\PY{p}{)}
+        \PY{n}{IPython}\PY{o}{.}\PY{n}{display}\PY{o}{.}\PY{n}{Audio}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./chime\PYZus{}output.wav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
