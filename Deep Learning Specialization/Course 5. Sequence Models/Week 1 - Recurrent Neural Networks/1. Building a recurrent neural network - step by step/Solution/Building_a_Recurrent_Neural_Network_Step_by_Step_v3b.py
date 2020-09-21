@@ -66,7 +66,7 @@
 
 # Let's first import all the packages that you will need during this assignment.
 
-# In[1]:
+# In[3]:
 
 import numpy as np
 from rnn_utils import *
@@ -163,7 +163,7 @@ from rnn_utils import *
 # 
 # 
 
-# In[17]:
+# In[4]:
 
 # GRADED FUNCTION: rnn_cell_forward
 
@@ -206,7 +206,7 @@ def rnn_cell_forward(xt, a_prev, parameters):
     return a_next, yt_pred, cache
 
 
-# In[18]:
+# In[5]:
 
 np.random.seed(1)
 xt_tmp = np.random.randn(3,10)
@@ -283,7 +283,7 @@ print("yt_pred.shape = \n", yt_pred_tmp.shape)
 # - [np.zeros](https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html)
 # - If you have a 3 dimensional numpy array and are indexing by its third dimension, you can use array slicing like this: `var_name[:,:,i]`.
 
-# In[4]:
+# In[6]:
 
 # GRADED FUNCTION: rnn_forward
 
@@ -343,7 +343,7 @@ def rnn_forward(x, a0, parameters):
     return a, y_pred, caches
 
 
-# In[5]:
+# In[7]:
 
 np.random.seed(1)
 x_tmp = np.random.randn(3,10,4)
@@ -561,7 +561,7 @@ print("len(caches) = \n", len(caches_tmp))
 # * Use [np.dot](https://docs.scipy.org/doc/numpy/reference/generated/numpy.dot.html) for matrix multiplication.
 # * Notice that the variable names `Wi`, `bi` refer to the weights and biases of the **update** gate.  There are no variables named "Wu" or "bu" in this function.
 
-# In[6]:
+# In[8]:
 
 # GRADED FUNCTION: lstm_cell_forward
 
@@ -635,7 +635,7 @@ def lstm_cell_forward(xt, a_prev, c_prev, parameters):
     return a_next, c_next, yt_pred, cache
 
 
-# In[7]:
+# In[9]:
 
 np.random.seed(1)
 xt_tmp = np.random.randn(3,10)
@@ -715,7 +715,7 @@ print("len(cache) = ", len(cache_tmp))
 #     - Store the hidden state, cell state and prediction (the 2D tensors) inside the 3D tensors.
 #     - Also append the cache to the list of caches.
 
-# In[8]:
+# In[10]:
 
 # GRADED FUNCTION: lstm_forward
 
@@ -786,7 +786,7 @@ def lstm_forward(x, a0, parameters):
     return a, y, c, caches
 
 
-# In[9]:
+# In[11]:
 
 np.random.seed(1)
 x_tmp = np.random.randn(3,10,7)
@@ -891,7 +891,7 @@ print("len(caches) = ", len(caches_tmp))
 # dz is not derived above but can optionally be derived by students to simplify the repeated calculations.
 # 
 
-# In[10]:
+# In[12]:
 
 def rnn_cell_backward(da_next, cache):
     """
@@ -943,7 +943,7 @@ def rnn_cell_backward(da_next, cache):
     return gradients
 
 
-# In[11]:
+# In[13]:
 
 np.random.seed(1)
 xt_tmp = np.random.randn(3,10)
@@ -1071,7 +1071,7 @@ print("gradients[\"dba\"].shape =", gradients_tmp["dba"].shape)
 # * It is further assumed that loss has been adjusted for batch size (m).
 #     * Therefore, division by the number of examples is not required here.
 
-# In[39]:
+# In[22]:
 
 def rnn_backward(da, caches):
     """
@@ -1095,7 +1095,7 @@ def rnn_backward(da, caches):
     # Retrieve values from the first cache (t=1) of caches (≈2 lines)
     #cache = (a_next, a_prev, xt, parameters)
     (caches, x) = caches
-    (a1, a0, x1, parameters) = caches[1]
+    (a1, a0, x1, parameters) = caches[0]
     
     # Retrieve dimensions from da's and x1's shapes (≈2 lines)
     n_a, m, T_x = da.shape
@@ -1113,7 +1113,7 @@ def rnn_backward(da, caches):
     for t in reversed(range(T_x)):
         # Compute gradients at time step t. 
         # Remember to sum gradients from the output path (da) and the previous timesteps (da_prevt) (≈1 line)
-        gradients = rnn_cell_backward(da_prevt, caches[t])    #     da[:, :, t] + da_prevt[:, :, t]
+        gradients = rnn_cell_backward(da[:, :, t] + da_prevt, caches[t])
         # Retrieve derivatives from gradients (≈ 1 line)
         dxt, da_prevt, dWaxt, dWaat, dbat = gradients["dxt"], gradients["da_prev"], gradients["dWax"], gradients["dWaa"], gradients["dba"]
         # Increment global derivatives w.r.t parameters by adding their derivative at time-step t (≈4 lines)
@@ -1132,7 +1132,7 @@ def rnn_backward(da, caches):
     return gradients
 
 
-# In[40]:
+# In[23]:
 
 np.random.seed(1)
 x_tmp = np.random.randn(3,10,4)
@@ -1300,7 +1300,7 @@ print("gradients[\"dba\"].shape =", gradients_tmp["dba"].shape)
 # $d\gamma_f^{\langle t \rangle}$ is represented by  `dft`
 # 
 
-# In[ ]:
+# In[44]:
 
 def lstm_cell_backward(da_next, dc_next, cache):
     """
@@ -1331,17 +1331,23 @@ def lstm_cell_backward(da_next, dc_next, cache):
     
     ### START CODE HERE ###
     # Retrieve dimensions from xt's and a_next's shape (≈2 lines)
-    n_x, m = None
-    n_a, m = None
+#    n_x, m = None
+#    n_a, m = None
+    n_x, m = xt.shape
+    n_a, m = a_next.shape
     
     # Compute gates related derivatives, you can find their values can be found by looking carefully at equations (7) to (10) (≈4 lines)
-    dot = None
-    dcct = None
-    dit = None
-    dft = None
+#    dot = None
+#    dcct = None
+#    dit = None
+#    dft = None
+    dot = da_next * np.tanh(c_next) * ot * (1 - ot)
+    dcct = (da_next * ot * (1 - np.tanh(c_next) ** 2) + dc_next) * it * (1 - cct ** 2)
+    dit = (da_next * ot * (1 - np.tanh(c_next) ** 2) + dc_next) * cct * (1 - it) * it
+    dft = (da_next * ot * (1 - np.tanh(c_next) ** 2) + dc_next) * c_prev * ft * (1 - ft)
     
     # Compute parameters related derivatives. Use equations (11)-(18) (≈8 lines)
-    dWf = None
+    """    dWf = None
     dWi = None
     dWc = None
     dWo = None
@@ -1349,11 +1355,24 @@ def lstm_cell_backward(da_next, dc_next, cache):
     dbi = None
     dbc = None
     dbo = None
-
+    """
+    dWf = np.dot(dft, np.hstack([a_prev.T, xt.T]))
+    dWi = np.dot(dit, np.hstack([a_prev.T, xt.T]))
+    dWc = np.dot(dcct, np.hstack([a_prev.T, xt.T]))
+    dWo = np.dot(dot, np.hstack([a_prev.T, xt.T]))
+    dbf = np.sum(dft, axis=1, keepdims=True)
+    dbi = np.sum(dit, axis=1, keepdims=True)
+    dbc = np.sum(dcct, axis=1, keepdims=True)
+    dbo = np.sum(dot, axis=1, keepdims=True)
+    
     # Compute derivatives w.r.t previous hidden state, previous memory state and input. Use equations (19)-(21). (≈3 lines)
-    da_prev = None
+    """    da_prev = None
     dc_prev = None
     dxt = None
+    """
+    da_prev = np.dot(parameters_tmp['Wf'][:, :n_a].T, dft) + np.dot(parameters_tmp['Wc'][:, :n_a].T, dcct) + np.dot(parameters_tmp['Wi'][:, :n_a].T, dit) + np.dot(parameters_tmp['Wo'][:, :n_a].T, dot)
+    dc_prev = (da_next * ot * (1 - np.tanh(c_next) ** 2) + dc_next) * ft
+    dxt = np.dot(parameters_tmp['Wf'][:, n_a:].T, dft) + np.dot(parameters_tmp['Wc'][:, n_a:].T, dcct) + np.dot(parameters_tmp['Wi'][:, n_a:].T, dit) + np.dot(parameters_tmp['Wo'][:, n_a:].T, dot)
     ### END CODE HERE ###
     
     # Save gradients in dictionary
@@ -1363,7 +1382,7 @@ def lstm_cell_backward(da_next, dc_next, cache):
     return gradients
 
 
-# In[ ]:
+# In[45]:
 
 np.random.seed(1)
 xt_tmp = np.random.randn(3,10)
@@ -1597,7 +1616,7 @@ print("gradients[\"dbo\"].shape =", gradients_tmp["dbo"].shape)
 # 
 # **Instructions**: Implement the `lstm_backward` function. Create a for loop starting from $T_x$ and going backward. For each step call `lstm_cell_backward` and update the your old gradients by adding the new gradients to them. Note that `dxt` is not updated but is stored.
 
-# In[ ]:
+# In[50]:
 
 def lstm_backward(da, caches):
     
@@ -1628,11 +1647,13 @@ def lstm_backward(da, caches):
     
     ### START CODE HERE ###
     # Retrieve dimensions from da's and x1's shapes (≈2 lines)
-    n_a, m, T_x = None
-    n_x, m = None
-    
+#    n_a, m, T_x = None
+#    n_x, m = None
+    n_a, m, T_x = da.shape
+    n_x, m = x1.shape 
+        
     # initialize the gradients with the right sizes (≈12 lines)
-    dx = None
+    """dx = None
     da0 = None
     da_prevt = None
     dc_prevt = None
@@ -1643,14 +1664,28 @@ def lstm_backward(da, caches):
     dbf = None
     dbi = None
     dbc = None
-    dbo = None
+    dbo = None """
+    dx = np.zeros((n_x, m, T_x))
+    da0 = np.zeros((n_a, m))
+    da_prevt = np.zeros((n_a, m))
+    dc_prevt = np.zeros((n_a, m))
+    dWf = np.zeros((n_a, n_a + n_x))
+    dWi = np.zeros((n_a, n_a + n_x))
+    dWc = np.zeros((n_a, n_a + n_x))
+    dWo = np.zeros((n_a, n_a + n_x))
+    dbf = np.zeros((n_a, 1))
+    dbi = np.zeros((n_a, 1))
+    dbc = np.zeros((n_a, 1))
+    dbo = np.zeros((n_a, 1))
     
     # loop back over the whole sequence
-    for t in reversed(range(None)):
+#    for t in reversed(range(None)):
+    for t in reversed(range(T_x)):
         # Compute all gradients using lstm_cell_backward
-        gradients = None
+        #gradients = None
+        gradients = lstm_cell_backward(da[:,:,t] + da_prevt, dc_prevt, caches[t])
         # Store or add the gradient to the parameters' previous step's gradient
-        da_prevt = None
+        """da_prevt = None
         dc_prevt = None
         dx[:,:,t] = None
         dWf += None
@@ -1660,9 +1695,22 @@ def lstm_backward(da, caches):
         dbf += None
         dbi += None
         dbc += None
-        dbo += None
+        dbo += None """
+        da_prevt = gradients["da_prev"]
+        dc_prevt = gradients["dc_prev"]
+        dx[:,:,t] = gradients["dxt"]
+        dWf += gradients["dWf"]
+        dWi += gradients["dWi"]
+        dWc += gradients["dWc"]
+        dWo += gradients["dWo"]
+        dbf += gradients["dbf"]
+        dbi += gradients["dbi"]
+        dbc += gradients["dbc"]
+        dbo += gradients["dbo"]        
+
     # Set the first activation's gradient to the backpropagated gradient da_prev.
-    da0 = None
+#    da0 = None
+    da0 = gradients["da_prev"]
     
     ### END CODE HERE ###
 
@@ -1673,7 +1721,7 @@ def lstm_backward(da, caches):
     return gradients
 
 
-# In[ ]:
+# In[51]:
 
 np.random.seed(1)
 x_tmp = np.random.randn(3,10,7)
