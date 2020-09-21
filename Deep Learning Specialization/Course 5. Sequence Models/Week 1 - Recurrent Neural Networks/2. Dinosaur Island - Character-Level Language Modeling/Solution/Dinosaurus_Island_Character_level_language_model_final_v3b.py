@@ -45,7 +45,7 @@
 # * `sample`
 #     - removed comments regarding potential different sample outputs to reduce confusion.
 
-# In[1]:
+# In[3]:
 
 import numpy as np
 from utils import *
@@ -59,7 +59,7 @@ import pprint
 # 
 # Run the following cell to read the dataset of dinosaur names, create a list of unique characters (such as a-z), and compute the dataset and vocabulary size. 
 
-# In[2]:
+# In[4]:
 
 data = open('dinos.txt', 'r').read()
 data= data.lower()
@@ -76,13 +76,13 @@ print('There are %d total characters and %d unique characters in your data.' % (
 # * `ix_to_char`: We also create a second python dictionary that maps each index back to the corresponding character. 
 #     -  This will help you figure out what index corresponds to what character in the probability distribution output of the softmax layer. 
 
-# In[3]:
+# In[5]:
 
 chars = sorted(chars)
 print(chars)
 
 
-# In[4]:
+# In[6]:
 
 char_to_ix = { ch:i for i,ch in enumerate(chars) }
 ix_to_char = { i:ch for i,ch in enumerate(chars) }
@@ -155,7 +155,7 @@ pp.pprint(ix_to_char)
 #     - Using the "`out`" parameter allows you to update a variable "in-place".
 #     - If you don't use "`out`" argument, the clipped variable is stored in the variable "gradient" but does not update the gradient variables `dWax`, `dWaa`, `dWya`, `db`, `dby`.
 
-# In[5]:
+# In[7]:
 
 ### GRADED FUNCTION: clip
 
@@ -184,7 +184,7 @@ def clip(gradients, maxValue):
     return gradients
 
 
-# In[6]:
+# In[8]:
 
 # Test with a maxvalue of 10
 mValue = 10
@@ -213,7 +213,7 @@ print("gradients[\"dby\"][1] =", gradients["dby"][1])
 # gradients["dby"][1] = [ 8.45833407]
 # ```
 
-# In[7]:
+# In[9]:
 
 # Test with a maxValue of 5
 mValue = 5
@@ -285,7 +285,7 @@ del mValue # avoid common issue
 # * When two arrays with  a different number of dimensions are added together, Python "broadcasts" one across the other.
 # * Here is some sample code that shows the difference between using a 1D and 2D array.
 
-# In[8]:
+# In[10]:
 
 matrix1 = np.array([[1,1],[2,2],[3,3]]) # (3,2)
 matrix2 = np.array([[0],[0],[0]]) # (3,1) 
@@ -297,7 +297,7 @@ print("vector1D \n", vector1D,"\n")
 print("vector2D \n", vector2D)
 
 
-# In[9]:
+# In[11]:
 
 print("Multiply 2D and 1D arrays: result is a 1D array\n", 
       np.dot(matrix1,vector1D))
@@ -305,14 +305,14 @@ print("Multiply 2D and 2D arrays: result is a 2D array\n",
       np.dot(matrix1,vector2D))
 
 
-# In[10]:
+# In[12]:
 
 print("Adding (3 x 1) vector to a (3 x 1) vector is a (3 x 1) vector\n",
       "This is what we want here!\n", 
       np.dot(matrix1,vector2D) + matrix2)
 
 
-# In[11]:
+# In[13]:
 
 print("Adding a (3,) vector to a (3 x 1) vector\n",
       "broadcasts the 1D array across the second dimension\n",
@@ -376,7 +376,7 @@ print("Adding a (3,) vector to a (3 x 1) vector\n",
 #     - You can either create a new numpy array: [numpy.zeros](https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html)
 #     - Or fill all values with a single number: [numpy.ndarray.fill](https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.fill.html)
 
-# In[12]:
+# In[14]:
 
 # GRADED FUNCTION: sample
 
@@ -460,7 +460,7 @@ def sample(parameters, char_to_ix, seed):
     return indices
 
 
-# In[13]:
+# In[15]:
 
 np.random.seed(2)
 _, n_a = 20, 100
@@ -535,7 +535,7 @@ print("list of sampled characters:\n", [ix_to_char[i] for i in indices])
 # * Note that the weights and biases inside the `parameters` dictionary are being updated by the optimization, even though `parameters` is not one of the returned values of the `optimize` function. The `parameters` dictionary is passed by reference into the function, so changes to this dictionary are making changes to the `parameters` dictionary even when accessed outside of the function.
 # * Python dictionaries and lists are "pass by reference", which means that if you pass a dictionary into a function and modify the dictionary within the function, this changes that same dictionary (it's not a copy of the dictionary).
 
-# In[14]:
+# In[16]:
 
 # GRADED FUNCTION: optimize
 
@@ -585,7 +585,7 @@ def optimize(X, Y, a_prev, parameters, learning_rate = 0.01):
     return loss, gradients, a[len(X)-1]
 
 
-# In[15]:
+# In[17]:
 
 np.random.seed(1)
 vocab_size, n_a = 27, 100
@@ -671,7 +671,7 @@ print("a_last[4] =", a_last[4])
 #     - Note that `append` is an in-place operation.
 #     - It might be easier for you to add two lists together.
 
-# In[16]:
+# In[18]:
 
 # GRADED FUNCTION: model
 
@@ -729,7 +729,7 @@ def model(data, ix_to_char, char_to_ix, num_iterations = 35000, n_a = 50, dino_n
         
         # Set the labels Y (see instructions above)
         ix_newline = char_to_ix['\n']
-        Y = X + [ix_newline]
+        Y = X[1:] + [ix_newline]
 
         # Perform one optimization step: Forward-prop -> Backward-prop -> Clip -> Update parameters
         # Choose a learning rate of 0.01
@@ -771,7 +771,7 @@ def model(data, ix_to_char, char_to_ix, num_iterations = 35000, n_a = 50, dino_n
 
 # Run the following cell, you should observe your model outputting random-looking characters at the first iteration. After a few thousand iterations, your model should learn to generate reasonable-looking names. 
 
-# In[17]:
+# In[19]:
 
 parameters = model(data, ix_to_char, char_to_ix, verbose = True)
 
